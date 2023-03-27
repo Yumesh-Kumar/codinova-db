@@ -4,6 +4,6 @@ const exchangeController = require("./exchange.controller")
 
 
 router.get("/exchange-list", exchangeController.getExchangeList )
-router.post("/exchange-sync", exchangeController.syncExchangeListToDB )
+router.get("/exchange-sync", exchangeController.syncExchangeListToDB )
 
 module.exports = router

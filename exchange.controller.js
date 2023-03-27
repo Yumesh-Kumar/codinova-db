@@ -8,21 +8,22 @@ async function getExchangeList(req, res) {
     const start = (pageNumber - 1) * limit;
 
     const filter = { name: new RegExp(name, "i") };
-    const end = Number(start + limit);
+    const end = Number(start) + Number(limit);
     const exchanges = await Exchange.find().where(filter).skip(start).limit(limit).exec();
     const totalData = await Exchange.countDocuments();
 
-    res
-      .status(200)
-      .send({
-        message: "Data get successfully",
-        data: exchanges,
-        totalData,
-        currentPage: pageNumber,
-        start,
-        end,
-        totalPages: totalData / limit,
-      });
+    res.status(200).send({
+      message: "Data get successfully",
+      data: exchanges,
+      totalData,
+      currentPage: Number(pageNumber),
+      next: Number(pageNumber) + 1,
+      prev: Number(pageNumber) - 1 ?? Number(pageNumber) > 0,
+      start,
+      end,
+      limit: Number(limit),
+      totalPages: Math.ceil(totalData / limit),
+    });
   } catch (error) {
     console.log("error", error);
     res.status(202).send({ message: "Something went wrong" });

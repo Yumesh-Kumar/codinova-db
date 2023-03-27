@@ -1,12 +1,14 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const cors = require("cors")
+
 dotenv.config();
 const app = express();
 const userRoutes = require("./user.routes");
+app.use(cors({ origin:"*" }))
 app.use(express.json());
 app.use("/api/v1/user", userRoutes);
-
 const uri = `mongodb+srv://${process.env.mongoose_user}:${process.env.mongoose_pass}@practice.mfua1va.mongodb.net/codinova-db`;
 const conn = mongoose.connect(uri);
 
